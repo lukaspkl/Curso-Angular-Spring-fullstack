@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
@@ -18,7 +20,7 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Cliente salvar (@RequestBody Cliente cliente){
+    public Cliente salvar (@RequestBody @Valid Cliente cliente){
         return clienteRepository
                 .save(cliente);
     }
@@ -28,7 +30,7 @@ public class ClienteController {
         return clienteRepository
                 .findById(id)
                 .orElseThrow(()-> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND));
+                        HttpStatus.NOT_FOUND, "Cliente nao Encontrado"));
 
     }
 
@@ -42,7 +44,7 @@ public class ClienteController {
                         return Void.TYPE;
                 })
                     .orElseThrow(()-> new ResponseStatusException(
-                            HttpStatus.NOT_FOUND));
+                            HttpStatus.NOT_FOUND, "Cliente nao Encontrado"));
 
 
     }
@@ -50,7 +52,7 @@ public class ClienteController {
     @PutMapping("{id}")
     @ResponseStatus(NO_CONTENT)
     public void atualizar (
-            @PathVariable Integer id,@RequestBody Cliente clienteatualizado ){
+            @PathVariable Integer id,@RequestBody @Valid Cliente clienteatualizado ){
             clienteRepository
                     .findById(id)
                     .map(c ->{
@@ -59,7 +61,7 @@ public class ClienteController {
 
 
                     })
-                    .orElseThrow(()-> new ResponseStatusException(NOT_FOUND));
+                    .orElseThrow(()-> new ResponseStatusException(NOT_FOUND, "Cliente nao Encontrado"));
 
 
     }
