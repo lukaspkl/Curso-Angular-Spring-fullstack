@@ -25,4 +25,9 @@ public class Cliente {
     @Column(name = "data_cadastro")
    private LocalDate dataCadastro;
 
+    @PrePersist
+    public void prePersist(){
+        setDataCadastro(LocalDate.now());
+    }
+
 }
