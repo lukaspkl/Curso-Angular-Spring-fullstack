@@ -12,7 +12,7 @@ export class ClientesformComponent implements OnInit {
   cliente: Cliente;
 
   constructor(private service: ClientesService) {
-    this.cliente = service.getCliente();
+    this.cliente = new Cliente();
      
    }
 
@@ -20,7 +20,10 @@ export class ClientesformComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.cliente)
+    this.service.salvar(this.cliente)
+    .subscribe(Response =>{
+      console.log(Response);
+    })
   }
 
 }
